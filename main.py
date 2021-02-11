@@ -1,6 +1,6 @@
 from yaml import dump
 
-from translating_parser import TranslatingParser
+from parser import TranslatingParser
 
 SPECIFICATION_FILE = "openapi.yaml"
 
