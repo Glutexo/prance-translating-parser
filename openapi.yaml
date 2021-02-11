@@ -1,0 +1,19 @@
+---
+openapi: 3.0.3
+info:
+  title: Sample specification for the translating parser
+  version: 0.0.0
+paths:
+  /hosts:
+    get:
+      responses:
+        default:
+          description: One response to the one operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Response:
+      type: object
