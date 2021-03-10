@@ -8,12 +8,18 @@ paths:
     get:
       responses:
         default:
-          description: One response to the one operation
+          description: A local reference
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response'
+                $ref: '#/components/schemas/PlainObject'
+        '200':
+          description: A file reference from the root document
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/$defs/PlainObject'
 components:
   schemas:
-    Response:
+    PlainObject:
       type: object
