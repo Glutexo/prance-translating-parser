@@ -4,17 +4,16 @@ from prance import ResolvingParser
 from yaml import dump
 
 from parser import TranslatingParser
-
-SPECIFICATION_FILE = "openapi.yaml"
+from cli import parse_args
 
 
 def _configure_logging():
     basicConfig(level=DEBUG)
 
 
-def _main():
-    # parser = ResolvingParser(SPECIFICATION_FILE)
-    parser = TranslatingParser(SPECIFICATION_FILE)
+def _main(args):
+    # parser = ResolvingParser(args.file)
+    parser = TranslatingParser(args.file)
     parser.parse()
     output = dump(parser.specification)
     print(output)
@@ -22,4 +21,6 @@ def _main():
 
 if __name__ == "__main__":
     _configure_logging()
-    _main()
+
+    args = parse_args()
+    _main(args)
