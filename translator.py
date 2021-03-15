@@ -3,6 +3,18 @@ import prance.util.url as _url
 
 class RefTranslator(object):
     def __init__(self, specs, url):
+        """
+        Construct a JSON reference translater.
+
+        The translated specs are in the `specs` member after a call to
+        `translate_references` has been made.
+
+        If a URL is given, it is used as a base for calculating the absolute
+        URL of relative file references.
+
+        :param dict specs: The parsed specs in which to translate any references.
+        :param str url: [optional] The URL to base relative references on.
+        """
         import copy
         self.specs = copy.deepcopy(specs)
 
