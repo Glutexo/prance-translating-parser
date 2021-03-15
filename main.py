@@ -1,17 +1,18 @@
-from logging import basicConfig, DEBUG, getLogger
-
 from prance import ResolvingParser
 from yaml import dump
 
-from parser import TranslatingParser
 from cli import parse_args
+from log import configure_logging
+from log import get_logger
+from parser import TranslatingParser
 
 
-def _configure_logging():
-    basicConfig(level=DEBUG)
+logger = get_logger(__name__)
 
 
 def _main(args):
+    logger.info("Parsing file %s", args.file)
+
     # parser = ResolvingParser(args.file)
     parser = TranslatingParser(args.file)
     parser.parse()
@@ -20,7 +21,8 @@ def _main(args):
 
 
 if __name__ == "__main__":
-    _configure_logging()
+    configure_logging()
 
     args = parse_args()
+    logger.debug("Arguments: %s", vars(args))
     _main(args)
