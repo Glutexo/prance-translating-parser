@@ -2,3 +2,7 @@
 $defs:
   PlainObject:
     type: object
+  ComplexObject:
+    type: object
+    additionalProperties:
+      $ref: '#/$defs/PlainObject'

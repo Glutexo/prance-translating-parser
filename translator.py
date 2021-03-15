@@ -77,7 +77,7 @@ class RefTranslator(object):
         value = copy.deepcopy(value)
 
         # Now resolve partial specs
-        # value = self._resolve_partial(ref_url, value)
+        value = self._translate_partial(ref_url, value)
 
         # That's it!
         return value
