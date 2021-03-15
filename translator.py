@@ -3,7 +3,8 @@ import prance.util.url as _url
 
 class RefTranslator(object):
     def __init__(self, specs, url):
-        self.specs = specs
+        import copy
+        self.specs = copy.deepcopy(specs)
 
         self.__strict = True
         self.__reference_cache = {}
