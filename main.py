@@ -1,4 +1,3 @@
-from prance import ResolvingParser
 from yaml import dump
 
 from cli import parse_args
@@ -13,8 +12,7 @@ logger = get_logger(__name__)
 def _main(args):
     logger.info("Parsing file %s", args.file)
 
-    # parser = ResolvingParser(args.file)
-    parser = TranslatingParser(args.file)
+    parser = args.parser(args.file)
     parser.parse()
     output = dump(parser.specification)
     print(output)
