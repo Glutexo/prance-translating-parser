@@ -5,7 +5,9 @@ from importlib import import_module
 __all__ = ("parse_args",)
 
 _parser = ArgumentParser()
-_parser.add_argument("file", nargs="?", default="openapi.yaml")
+_parser.add_argument(
+    "file", nargs="?", default="openapi.yaml", help="OpenAPI specification file. Default: %(default)s"
+)
 
 
 def _get_parser(name):
@@ -14,7 +16,7 @@ def _get_parser(name):
     return getattr(module, class_name)
 
 
-_parser.add_argument("--parser", type=_get_parser, default="parser.TranslatingParser")
+_parser.add_argument("--parser", type=_get_parser, default="parser.TranslatingParser", help="Parser class. Default: %(default)s")
 
 
 def parse_args():
