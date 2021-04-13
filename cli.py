@@ -21,7 +21,10 @@ def _get_parser(name):
 
 
 def _get_formatter(name):
-    return _FORMATTERS[name]
+    try:
+        return _FORMATTERS[name]
+    except KeyError:
+        raise ValueError()
 
 
 _parser.add_argument(
