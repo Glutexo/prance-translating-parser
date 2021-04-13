@@ -5,7 +5,7 @@ __all__ = ("parse_args",)
 
 _parser = ArgumentParser()
 _parser.add_argument(
-    "file", nargs="?", default="openapi.yaml", help="OpenAPI specification file. Default: %(default)s"
+    "file", nargs="?", default="specs/openapi.yaml", help="OpenAPI specification file. Default: %(default)s"
 )
 
 
