@@ -1,10 +1,14 @@
-from logging import basicConfig, DEBUG, getLogger
+from logging import basicConfig
+from logging import DEBUG
+from logging import getLogger
+from logging import INFO
 
 __all__ = ("configure_logging", "get_logger")
 
 
-def configure_logging(args):
-    basicConfig(level=args.verbose)
+def configure_logging(verbose):
+    level = DEBUG if verbose else INFO
+    basicConfig(level=level)
 
 
 def get_logger(name):
