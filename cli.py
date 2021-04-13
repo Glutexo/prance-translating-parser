@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 from importlib import import_module
 
-
 __all__ = ("parse_args",)
 
 _parser = ArgumentParser()
@@ -16,7 +15,9 @@ def _get_parser(name):
     return getattr(module, class_name)
 
 
-_parser.add_argument("--parser", "-p", type=_get_parser, default="parser.TranslatingParser", help="Parser class. Default: %(default)s")
+_parser.add_argument(
+    "--parser", "-p", type=_get_parser, default="parser.TranslatingParser", help="Parser class. Default: %(default)s"
+)
 
 
 def parse_args():
