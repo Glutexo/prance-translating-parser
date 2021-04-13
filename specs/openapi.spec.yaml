@@ -18,13 +18,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'schemas.yaml#/$defs/PlainObject'
+                $ref: 'schemas.spec.yaml#/$defs/PlainObject'
         '201':
           description: A file reference of a complex object from the root document
           content:
             application/json:
               schema:
-                  $ref: 'schemas.yaml#/$defs/ComplexObject'
+                  $ref: 'schemas.spec.yaml#/$defs/ComplexObject'
 components:
   schemas:
     PlainObject:
