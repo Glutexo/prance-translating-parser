@@ -1,5 +1,3 @@
-from yaml import dump
-
 from cli import parse_args
 from log import configure_logging
 from log import get_logger
@@ -13,7 +11,7 @@ def _main(args):
 
     parser = args.parser(args.file)
     parser.parse()
-    output = dump(parser.specification)
+    output = args.output_format(parser.specification)
     print(output)
 
 
