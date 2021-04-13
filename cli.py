@@ -1,7 +1,9 @@
 from argparse import ArgumentParser
 from importlib import import_module
-from yaml import dump as yaml_dump
 from json import dumps as json_dumps
+from logging import DEBUG
+from logging import INFO
+from yaml import dump as yaml_dump
 
 __all__ = ("parse_args",)
 
@@ -36,6 +38,14 @@ _parser.add_argument(
     type=_get_formatter,
     default="json",
     help="Output format: json or yaml. Default: %(default)s",
+)
+_parser.add_argument(
+    "--verbose",
+    "-v",
+    action="store_const",
+    const=DEBUG,
+    default=INFO,
+    help="Verbose output",
 )
 
 

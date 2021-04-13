@@ -16,8 +16,8 @@ def _main(args):
 
 
 if __name__ == "__main__":
-    configure_logging()
-
     args = parse_args()
+
+    configure_logging(args)
     logger.debug("Arguments: %s", vars(args))
     _main(args)
