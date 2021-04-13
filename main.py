@@ -3,7 +3,6 @@ from yaml import dump
 from cli import parse_args
 from log import configure_logging
 from log import get_logger
-from parser import TranslatingParser
 
 
 logger = get_logger(__name__)
