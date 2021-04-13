@@ -1,5 +1,7 @@
 from argparse import ArgumentParser
 from importlib import import_module
+from logging import DEBUG
+from logging import INFO
 
 __all__ = ("parse_args",)
 
@@ -41,7 +43,9 @@ _parser.add_argument(
 _parser.add_argument(
     "--verbose",
     "-v",
-    action="store_true",
+    action="store_const",
+    const=DEBUG,
+    default=INFO,
     help="Verbose output",
 )
 
