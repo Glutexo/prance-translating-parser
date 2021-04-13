@@ -1,7 +1,5 @@
 from argparse import ArgumentParser
 from importlib import import_module
-from json import dumps as json_dumps
-from yaml import dump as yaml_dump
 
 __all__ = ("parse_args",)
 
@@ -11,7 +9,7 @@ _parser.add_argument(
 )
 
 
-_FORMATTERS = {"json": json_dumps, "yaml": yaml_dump}
+_FORMATTERS = {"json": ("json", "dumps"), "yaml": ("yaml", "dump")}
 
 
 def _get_parser(name):
@@ -22,9 +20,12 @@ def _get_parser(name):
 
 def _get_formatter(name):
     try:
-        return _FORMATTERS[name]
+        module_name, function_name = _FORMATTERS[name]
     except KeyError:
         raise ValueError()
+
+    module = import_module(module_name)
+    return getattr(module, function_name)
 
 
 _parser.add_argument(
