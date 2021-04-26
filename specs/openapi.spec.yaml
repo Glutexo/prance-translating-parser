@@ -25,6 +25,12 @@ paths:
             application/json:
               schema:
                   $ref: 'schemas.spec.yaml#/$defs/ComplexObject'
+        '400':
+          description: A file reference of a recursive object from the root document
+          content:
+            application/json:
+              schema:
+                  $ref: 'schemas.spec.yaml#/$defs/RecursiveObject'
 components:
   schemas:
     PlainObject:

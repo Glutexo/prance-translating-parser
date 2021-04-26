@@ -6,3 +6,10 @@ $defs:
     type: object
     additionalProperties:
       $ref: '#/$defs/PlainObject'
+  RecursiveObject:
+    type: object
+    additionalProperties:
+      oneOf:
+      - "$ref": "#/$defs/RecursiveObject"
+      - not:
+          type: object
