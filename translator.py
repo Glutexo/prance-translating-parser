@@ -1,6 +1,15 @@
 import prance.util.url as _url
 
 
+def _reference_key(ref_url, item_path):
+    """
+    Return a portion of the dereferenced URL.
+
+    format - ref-url_obj-path
+    """
+    return ref_url.path.split('/')[-1] + '_' + '_'.join(item_path[1:])
+
+
 class RefTranslator(object):
     def __init__(self, specs, url):
         """
@@ -102,13 +111,14 @@ class RefTranslator(object):
         for _, ref_string, item_path in reference_iterator(partial):
             ref_url, obj_path = _url.split_url_reference(base_url, ref_string)
             full_path = path + item_path
-            ref_value = self._dereference(ref_url, obj_path)
 
             if ref_url.path == self.url.path:
-                # Reference to the root document. Keeping intact.
-                yield full_path, ref_value
+                # Reference to the root document.
+                translated_url = '#/' + '/'.join(obj_path)
+                yield full_path, {'$ref': translated_url}
             else:
-                # Reference to a non-root document. Translating.
+                # Reference to a non-root document.
+                ref_value = self._dereference(ref_url, obj_path)
                 ref_key = self._collect_reference(ref_url, obj_path, ref_value)
                 translated_url = '#/components/schemas/' + ref_key
                 yield full_path, {'$ref': translated_url}

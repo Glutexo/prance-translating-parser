@@ -18,25 +18,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'schemas.spec.yaml#/$defs/PlainObject'
+                $ref: 'schemas_non_recursive.spec.yaml#/$defs/PlainObject'
         '201':
           description: A file reference of a complex object from the root document
           content:
             application/json:
               schema:
-                  $ref: 'schemas.spec.yaml#/$defs/ComplexObject'
+                  $ref: 'schemas_non_recursive.spec.yaml#/$defs/ComplexObject'
         '400':
           description: A file reference of a recursive object from the root document
           content:
             application/json:
               schema:
-                  $ref: 'schemas.spec.yaml#/$defs/RootObject'
-        '401':
-          description: A file reference of a recursive object from the root document
-          content:
-            application/json:
-              schema:
-                  $ref: 'schemas.spec.yaml#/$defs/RecursiveObject'
+                $ref: 'schemas_non_recursive.spec.yaml#/$defs/RootObject'
 components:
   schemas:
     PlainObject:

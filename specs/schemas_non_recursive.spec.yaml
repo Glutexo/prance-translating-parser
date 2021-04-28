@@ -7,7 +7,7 @@ $defs:
     additionalProperties:
       $ref: '#/$defs/PlainObject'
   RootObject:
-    $ref: 'openapi.spec.yaml#/components/schemas/PlainObject'
+    $ref: 'openapi_non_recursive.spec.yaml#/components/schemas/PlainObject'
   RecursiveObject:
     type: object
     additionalProperties:
