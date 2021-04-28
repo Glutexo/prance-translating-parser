@@ -10,6 +10,11 @@ def _reference_key(ref_url, item_path):
     return ref_url.path.split('/')[-1] + '_' + '_'.join(item_path[1:])
 
 
+def _local_ref(path):
+    url = '#/' + '/'.join(path)
+    return {'$ref': url}
+
+
 class RefTranslator(object):
     def __init__(self, specs, url):
         """
@@ -114,14 +119,15 @@ class RefTranslator(object):
 
             if ref_url.path == self.url.path:
                 # Reference to the root document.
-                translated_url = '#/' + '/'.join(obj_path)
-                yield full_path, {'$ref': translated_url}
+                ref_path = obj_path
             else:
                 # Reference to a non-root document.
                 ref_value = self._dereference(ref_url, obj_path)
                 ref_key = self._collect_reference(ref_url, obj_path, ref_value)
-                translated_url = '#/components/schemas/' + ref_key
-                yield full_path, {'$ref': translated_url}
+                ref_path = ['components', 'schemas', ref_key]
+
+            ref_obj = _local_ref(ref_path)
+            yield full_path, ref_obj
 
     def _collect_reference(self, ref_url, item_path, value):
         """
