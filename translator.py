@@ -123,8 +123,10 @@ class RefTranslator(object):
             else:
                 # Reference to a non-root document.
                 ref_key = _reference_key(ref_url, obj_path)
-                ref_value = self._dereference(ref_url, obj_path)
-                self.__collected_references[ref_key] = ref_value
+                if ref_key not in self.__collected_references:
+                    self.__collected_references[ref_key] = None
+                    ref_value = self._dereference(ref_url, obj_path)
+                    self.__collected_references[ref_key] = ref_value
                 ref_path = ['components', 'schemas', ref_key]
 
             ref_obj = _local_ref(ref_path)

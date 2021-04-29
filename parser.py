@@ -11,4 +11,4 @@ class TranslatingParser(BaseParser):
         translator.translate_references()
         self.specification = translator.specs
 
-        # BaseParser._validate(self)
+        BaseParser._validate(self)
