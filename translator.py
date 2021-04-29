@@ -122,19 +122,10 @@ class RefTranslator(object):
                 ref_path = obj_path
             else:
                 # Reference to a non-root document.
+                ref_key = _reference_key(ref_url, obj_path)
                 ref_value = self._dereference(ref_url, obj_path)
-                ref_key = self._collect_reference(ref_url, obj_path, ref_value)
+                self.__collected_references[ref_key] = ref_value
                 ref_path = ['components', 'schemas', ref_key]
 
             ref_obj = _local_ref(ref_path)
             yield full_path, ref_obj
-
-    def _collect_reference(self, ref_url, item_path, value):
-        """
-        Return a portion of the dereferenced URL.
-
-        format - ref-url_obj-path
-        """
-        ref_key = ref_url.path.split('/')[-1] + '_' + '_'.join(item_path[1:])
-        self.__collected_references[ref_key] = value
-        return ref_key
