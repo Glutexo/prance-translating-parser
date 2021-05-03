@@ -2,7 +2,7 @@ from translating_parser.parser import TranslatingParser
 from yaml import dump
 
 
-def test_pain_object():
+def test_plain_object():
     schema_obj = {
         "openapi": "3.0.3",
         "info": {
