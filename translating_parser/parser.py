@@ -1,6 +1,6 @@
 from prance import BaseParser
 
-from translator import RefTranslator
+from .translator import RefTranslator
 
 
 class TranslatingParser(BaseParser):

@@ -31,7 +31,7 @@ def _get_formatter(name):
 
 
 _parser.add_argument(
-    "--parser", "-p", type=_get_parser, default="parser.TranslatingParser", help="Parser class. Default: %(default)s"
+    "--parser", "-p", type=_get_parser, default="translating_parser.parser.TranslatingParser", help="Parser class. Default: %(default)s"
 )
 _parser.add_argument(
     "--output-format",
