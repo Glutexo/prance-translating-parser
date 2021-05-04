@@ -12,4 +12,4 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'local_ref_objs.spec.yaml#/$defs/RefObject'
+                $ref: 'same_ref_objs.spec.yaml#/$defs/RefObject'

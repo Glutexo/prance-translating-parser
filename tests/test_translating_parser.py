@@ -49,14 +49,16 @@ def test_file_reference_from_root():
 
 def test_local_reference_from_file():
     tester = SpecificationTester("local_file_ref.spec.yaml")
-    tester.assert_path_ref("more_objs.spec.yaml_RefObject")
-    tester.assert_schemas({"more_objs.spec.yaml_RefObject", "more_objs.spec.yaml_PlainObject"})
-    tester.assert_schema_ref("more_objs.spec.yaml_RefObject", "more_objs.spec.yaml_PlainObject")
+    tester.assert_path_ref("local_ref_objs.spec.yaml_RefObject")
+    tester.assert_schemas({"local_ref_objs.spec.yaml_RefObject", "local_ref_objs.spec.yaml_PlainObject"})
+    tester.assert_schema_ref("local_ref_objs.spec.yaml_RefObject", "local_ref_objs.spec.yaml_PlainObject")
 
 
-@mark.skip
 def test_same_file_reference_from_file():
-    pass
+    tester = SpecificationTester("same_file_ref.spec.yaml")
+    tester.assert_path_ref("same_ref_objs.spec.yaml_RefObject")
+    tester.assert_schemas({"same_ref_objs.spec.yaml_RefObject", "same_ref_objs.spec.yaml_PlainObject"})
+    tester.assert_schema_ref("same_ref_objs.spec.yaml_RefObject", "same_ref_objs.spec.yaml_PlainObject")
 
 
 @mark.skip
