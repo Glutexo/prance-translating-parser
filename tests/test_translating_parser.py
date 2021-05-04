@@ -6,7 +6,7 @@ from translating_parser.parser import TranslatingParser
 
 
 def test_local_reference_from_root():
-    path = join("tests", "specs", "root.spec.yaml")
+    path = join("tests", "specs", "local_ref.spec.yaml")
     parser = TranslatingParser(path)
     parser.parse()
 
@@ -17,9 +17,16 @@ def test_local_reference_from_root():
     assert parser.specification["components"]["schemas"].keys() == {"PlainObject"}
 
 
-@mark.skip
 def test_file_reference_from_root():
-    pass
+    path = join("tests", "specs", "file_ref.spec.yaml")
+    parser = TranslatingParser(path)
+    parser.parse()
+
+    parsed_responses = parser.specification["paths"]["/hosts"]["get"]["responses"]
+    expected_schema = parsed_responses["default"]["content"]["application/json"]["schema"]
+    assert "$ref" in expected_schema
+    assert expected_schema["$ref"] == "#/components/schemas/plain_obj.spec.yaml_PlainObject"
+    assert parser.specification["components"]["schemas"].keys() == {"plain_obj.spec.yaml_PlainObject"}
 
 
 @mark.skip
