@@ -1,8 +1,11 @@
-from translating_parser.parser import TranslatingParser
 from yaml import dump
 
+from pytest import mark
 
-def test_plain_object():
+from translating_parser.parser import TranslatingParser
+
+
+def test_local_reference_from_root():
     schema_obj = {
         "openapi": "3.0.3",
         "info": {
@@ -39,8 +42,33 @@ def test_plain_object():
     parser = TranslatingParser(spec_string=schema_yaml)
     parser.parse()
 
-    expected_schema = parser.specification \
-        ["paths"]["/hosts"]["get"]["responses"]["default"]["content"]["application/json"]["schema"]
+    parsed_responses = parser.specification["paths"]["/hosts"]["get"]["responses"]
+    expected_schema = parsed_responses["default"]["content"]["application/json"]["schema"]
     assert "$ref" in expected_schema
     assert expected_schema["$ref"] == "#/components/schemas/PlainObject"
     assert parser.specification["components"]["schemas"].keys() == {"PlainObject"}
+
+
+@mark.skip
+def test_file_reference_from_root():
+    pass
+
+
+@mark.skip
+def test_local_reference_from_file():
+    pass
+
+
+@mark.skip
+def test_same_file_reference_from_file():
+    pass
+
+
+@mark.skip
+def test_different_file_reference_from_file():
+    pass
+
+
+@mark.skip
+def test_root_file_reference_from_file():
+    pass
