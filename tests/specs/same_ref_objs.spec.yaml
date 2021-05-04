@@ -1,6 +1,0 @@
----
-$defs:
-  RefObject:
-    $ref: "same_ref_objs.spec.yaml#/$defs/PlainObject"
-  PlainObject:
-    type: object

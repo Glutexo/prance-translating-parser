@@ -12,4 +12,4 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'plain_obj.spec.yaml#/$defs/PlainObject'
+                $ref: 'file_reference_from_root_schemas.spec.yaml#/$defs/PlainObject'
