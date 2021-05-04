@@ -12,22 +12,27 @@ def _parse_spec(file):
     return parser.specification
 
 
+def _assert_path_ref(specification, ref):
+    responses = specification["paths"]["/hosts"]["get"]["responses"]
+    expected_schema = responses["default"]["content"]["application/json"]["schema"]
+    assert "$ref" in expected_schema
+    assert expected_schema["$ref"] == ref
+
+
+def _assert_schemas(specification, keys):
+    assert specification["components"]["schemas"].keys() == keys
+
+
 def test_local_reference_from_root():
     specification = _parse_spec("local_ref.spec.yaml")
-    parsed_responses = specification["paths"]["/hosts"]["get"]["responses"]
-    expected_schema = parsed_responses["default"]["content"]["application/json"]["schema"]
-    assert "$ref" in expected_schema
-    assert expected_schema["$ref"] == "#/components/schemas/PlainObject"
-    assert specification["components"]["schemas"].keys() == {"PlainObject"}
+    _assert_path_ref(specification, "#/components/schemas/PlainObject")
+    _assert_schemas(specification, {"PlainObject"})
 
 
 def test_file_reference_from_root():
     specification = _parse_spec("file_ref.spec.yaml")
-    parsed_responses = specification["paths"]["/hosts"]["get"]["responses"]
-    expected_schema = parsed_responses["default"]["content"]["application/json"]["schema"]
-    assert "$ref" in expected_schema
-    assert expected_schema["$ref"] == "#/components/schemas/plain_obj.spec.yaml_PlainObject"
-    assert specification["components"]["schemas"].keys() == {"plain_obj.spec.yaml_PlainObject"}
+    _assert_path_ref(specification, "#/components/schemas/plain_obj.spec.yaml_PlainObject")
+    _assert_schemas(specification, {"plain_obj.spec.yaml_PlainObject"})
 
 
 @mark.skip
