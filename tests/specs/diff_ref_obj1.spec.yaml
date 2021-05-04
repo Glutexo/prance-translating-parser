@@ -1,0 +1,4 @@
+---
+$defs:
+  RefObject:
+    $ref: "diff_ref_obj2.spec.yaml#/$defs/PlainObject"

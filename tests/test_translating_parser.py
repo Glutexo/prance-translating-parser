@@ -61,9 +61,11 @@ def test_same_file_reference_from_file():
     tester.assert_schema_ref("same_ref_objs.spec.yaml_RefObject", "same_ref_objs.spec.yaml_PlainObject")
 
 
-@mark.skip
 def test_different_file_reference_from_file():
-    pass
+    tester = SpecificationTester("diff_file_ref.spec.yaml")
+    tester.assert_path_ref("diff_ref_obj1.spec.yaml_RefObject")
+    tester.assert_schemas({"diff_ref_obj1.spec.yaml_RefObject", "diff_ref_obj2.spec.yaml_PlainObject"})
+    tester.assert_schema_ref("diff_ref_obj1.spec.yaml_RefObject", "diff_ref_obj2.spec.yaml_PlainObject")
 
 
 @mark.skip
