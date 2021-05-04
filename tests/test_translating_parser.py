@@ -50,52 +50,53 @@ def test_file_reference_from_root():
 def test_local_reference_from_file():
     tester = SpecificationTester("local_reference_from_file.spec.yaml")
     tester.assert_path_ref("local_reference_from_file_schemas.spec.yaml_RefObject")
-    tester.assert_schemas({
-        "local_reference_from_file_schemas.spec.yaml_RefObject",
-        "local_reference_from_file_schemas.spec.yaml_PlainObject"
-    })
+    tester.assert_schemas(
+        {
+            "local_reference_from_file_schemas.spec.yaml_RefObject",
+            "local_reference_from_file_schemas.spec.yaml_PlainObject",
+        }
+    )
     tester.assert_schema_ref(
         "local_reference_from_file_schemas.spec.yaml_RefObject",
-        "local_reference_from_file_schemas.spec.yaml_PlainObject"
+        "local_reference_from_file_schemas.spec.yaml_PlainObject",
     )
 
 
 def test_same_file_reference_from_file():
     tester = SpecificationTester("same_file_reference_from_file.spec.yaml")
     tester.assert_path_ref("same_file_reference_from_file_schemas.spec.yaml_RefObject")
-    tester.assert_schemas({
-        "same_file_reference_from_file_schemas.spec.yaml_RefObject",
-        "same_file_reference_from_file_schemas.spec.yaml_PlainObject"
-    })
+    tester.assert_schemas(
+        {
+            "same_file_reference_from_file_schemas.spec.yaml_RefObject",
+            "same_file_reference_from_file_schemas.spec.yaml_PlainObject",
+        }
+    )
     tester.assert_schema_ref(
         "same_file_reference_from_file_schemas.spec.yaml_RefObject",
-        "same_file_reference_from_file_schemas.spec.yaml_PlainObject"
+        "same_file_reference_from_file_schemas.spec.yaml_PlainObject",
     )
 
 
 def test_different_file_reference_from_file():
     tester = SpecificationTester("different_file_reference_from_file.spec.yaml")
     tester.assert_path_ref("different_file_reference_from_file_schemas1.spec.yaml_RefObject")
-    tester.assert_schemas({
-        "different_file_reference_from_file_schemas1.spec.yaml_RefObject",
-        "different_file_reference_from_file_schemas2.spec.yaml_PlainObject"
-    })
+    tester.assert_schemas(
+        {
+            "different_file_reference_from_file_schemas1.spec.yaml_RefObject",
+            "different_file_reference_from_file_schemas2.spec.yaml_PlainObject",
+        }
+    )
     tester.assert_schema_ref(
         "different_file_reference_from_file_schemas1.spec.yaml_RefObject",
-        "different_file_reference_from_file_schemas2.spec.yaml_PlainObject"
+        "different_file_reference_from_file_schemas2.spec.yaml_PlainObject",
     )
 
 
 def test_root_file_reference_from_file():
     tester = SpecificationTester("root_file_reference_from_file.spec.yaml")
     tester.assert_path_ref("root_file_reference_from_file_schemas.spec.yaml_RefObject")
-    tester.assert_schemas(
-        {"PlainObject", "root_file_reference_from_file_schemas.spec.yaml_RefObject"}
-    )
-    tester.assert_schema_ref(
-        "root_file_reference_from_file_schemas.spec.yaml_RefObject",
-        "PlainObject"
-    )
+    tester.assert_schemas({"PlainObject", "root_file_reference_from_file_schemas.spec.yaml_RefObject"})
+    tester.assert_schema_ref("root_file_reference_from_file_schemas.spec.yaml_RefObject", "PlainObject")
 
 
 def test_root_file_reference_from_root():
