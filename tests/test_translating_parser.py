@@ -69,3 +69,8 @@ def test_different_file_reference_from_file():
 @mark.skip
 def test_root_file_reference_from_file():
     pass
+
+
+@mark.skip
+def test_root_file_reference_from_root():
+    pass
