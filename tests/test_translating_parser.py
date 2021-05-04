@@ -98,6 +98,7 @@ def test_root_file_reference_from_file():
     )
 
 
-@mark.skip
 def test_root_file_reference_from_root():
-    pass
+    tester = SpecificationTester("root_file_reference_from_root.spec.yaml")
+    tester.assert_path_ref("PlainObject")
+    tester.assert_schemas({"PlainObject"})
