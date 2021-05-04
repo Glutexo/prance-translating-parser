@@ -1,4 +1,4 @@
-from yaml import dump
+from os.path import join
 
 from pytest import mark
 
@@ -6,40 +6,8 @@ from translating_parser.parser import TranslatingParser
 
 
 def test_local_reference_from_root():
-    schema_obj = {
-        "openapi": "3.0.3",
-        "info": {
-            "title": "Sample specification for the translating parser",
-            "version": "0.0.0",
-        },
-        "paths": {
-            "/hosts": {
-                "get": {
-                    "responses": {
-                        "default": {
-                            "description": "A local reference",
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "#/components/schemas/PlainObject",
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-        "components": {
-            "schemas": {
-                "PlainObject": {
-                    "type": "object",
-                },
-            },
-        },
-    }
-    schema_yaml = dump(schema_obj)
-    parser = TranslatingParser(spec_string=schema_yaml)
+    path = join("tests", "specs", "root.spec.yaml")
+    parser = TranslatingParser(path)
     parser.parse()
 
     parsed_responses = parser.specification["paths"]["/hosts"]["get"]["responses"]
