@@ -30,10 +30,10 @@ class SpecificationTester:
         schema = responses["default"]["content"]["application/json"]["schema"]
         self._assert_ref(schema, ref)
 
-    def assert_schema_ref(self, key, ref, sub=None):
+    def assert_schema_ref(self, key, ref, getter=lambda schema: schema):
         schemas = self.specification["components"]["schemas"]
         assert key in schemas
-        schema = schemas[key][sub] if sub else schemas[key]
+        schema = getter(schemas[key])
         self._assert_ref(schema, ref)
 
 
@@ -109,7 +109,7 @@ def test_root_file_reference_from_root():
 
 def test_recursive_reference_in_root():
     tester = SpecificationTester("recursive_reference_in_root")
-    tester.assert_schema_ref("RecursiveObject", "RecursiveObject", "additionalProperties")
+    tester.assert_schema_ref("RecursiveObject", "RecursiveObject", lambda schema: schema["additionalProperties"])
 
 
 def test_recursive_reference_in_file():
@@ -119,5 +119,33 @@ def test_recursive_reference_in_file():
     tester.assert_schema_ref(
         "recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
         "recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
-        "additionalProperties"
+        lambda schema: schema["additionalProperties"]
+    )
+
+
+def test_nested_recursive_reference_in_file():
+    tester = SpecificationTester("nested_recursive_reference_in_file")
+    tester.assert_path_ref("Response")
+    tester.assert_schemas({
+        "Response",
+        "ResultsItem",
+        "ReferenceObject",
+        "nested_recursive_reference_in_file_schemas.spec.yaml_ComplexObject",
+        "nested_recursive_reference_in_file_schemas.spec.yaml_ComplexObjectProperty",
+        "nested_recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
+    })
+    tester.assert_schema_ref(
+        "nested_recursive_reference_in_file_schemas.spec.yaml_ComplexObject",
+        "nested_recursive_reference_in_file_schemas.spec.yaml_ComplexObjectProperty",
+        lambda schema: schema["properties"]["property"]
+    )
+    tester.assert_schema_ref(
+        "nested_recursive_reference_in_file_schemas.spec.yaml_ComplexObjectProperty",
+        "nested_recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
+        lambda schema: schema["properties"]["recursive"]
+    )
+    tester.assert_schema_ref(
+        "nested_recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
+        "nested_recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
+        lambda schema: schema["additionalProperties"]["oneOf"][0]
     )
