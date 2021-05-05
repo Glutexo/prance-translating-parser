@@ -7,7 +7,8 @@ from translating_parser.parser import TranslatingParser
 
 class SpecificationTester:
     @staticmethod
-    def _parse_spec(file):
+    def _parse_spec(name):
+        file = f"{name}.spec.yaml"
         path = join("tests", "specs", file)
         parser = TranslatingParser(path)
         parser.parse()
@@ -36,19 +37,19 @@ class SpecificationTester:
 
 
 def test_local_reference_from_root():
-    tester = SpecificationTester("local_reference_from_root.spec.yaml")
+    tester = SpecificationTester("local_reference_from_root")
     tester.assert_path_ref("PlainObject")
     tester.assert_schemas({"PlainObject"})
 
 
 def test_file_reference_from_root():
-    tester = SpecificationTester("file_reference_from_root.spec.yaml")
+    tester = SpecificationTester("file_reference_from_root")
     tester.assert_path_ref("file_reference_from_root_schemas.spec.yaml_PlainObject")
     tester.assert_schemas({"file_reference_from_root_schemas.spec.yaml_PlainObject"})
 
 
 def test_local_reference_from_file():
-    tester = SpecificationTester("local_reference_from_file.spec.yaml")
+    tester = SpecificationTester("local_reference_from_file")
     tester.assert_path_ref("local_reference_from_file_schemas.spec.yaml_RefObject")
     tester.assert_schemas(
         {
@@ -63,7 +64,7 @@ def test_local_reference_from_file():
 
 
 def test_same_file_reference_from_file():
-    tester = SpecificationTester("same_file_reference_from_file.spec.yaml")
+    tester = SpecificationTester("same_file_reference_from_file")
     tester.assert_path_ref("same_file_reference_from_file_schemas.spec.yaml_RefObject")
     tester.assert_schemas(
         {
@@ -78,7 +79,7 @@ def test_same_file_reference_from_file():
 
 
 def test_different_file_reference_from_file():
-    tester = SpecificationTester("different_file_reference_from_file.spec.yaml")
+    tester = SpecificationTester("different_file_reference_from_file")
     tester.assert_path_ref("different_file_reference_from_file_schemas1.spec.yaml_RefObject")
     tester.assert_schemas(
         {
@@ -93,13 +94,19 @@ def test_different_file_reference_from_file():
 
 
 def test_root_file_reference_from_file():
-    tester = SpecificationTester("root_file_reference_from_file.spec.yaml")
+    tester = SpecificationTester("root_file_reference_from_file")
     tester.assert_path_ref("root_file_reference_from_file_schemas.spec.yaml_RefObject")
     tester.assert_schemas({"PlainObject", "root_file_reference_from_file_schemas.spec.yaml_RefObject"})
     tester.assert_schema_ref("root_file_reference_from_file_schemas.spec.yaml_RefObject", "PlainObject")
 
 
 def test_root_file_reference_from_root():
-    tester = SpecificationTester("root_file_reference_from_root.spec.yaml")
+    tester = SpecificationTester("root_file_reference_from_root")
+    tester.assert_path_ref("PlainObject")
+    tester.assert_schemas({"PlainObject"})
+
+
+def test_recursive_reference_in_root():
+    tester = SpecificationTester("recursive_reference_in_root")
     tester.assert_path_ref("PlainObject")
     tester.assert_schemas({"PlainObject"})
