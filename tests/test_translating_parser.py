@@ -30,10 +30,11 @@ class SpecificationTester:
         schema = responses["default"]["content"]["application/json"]["schema"]
         self._assert_ref(schema, ref)
 
-    def assert_schema_ref(self, key, ref):
+    def assert_schema_ref(self, key, ref, sub=None):
         schemas = self.specification["components"]["schemas"]
         assert key in schemas
-        self._assert_ref(schemas[key], ref)
+        schema = schemas[key][sub] if sub else schemas[key]
+        self._assert_ref(schema, ref)
 
 
 def test_local_reference_from_root():
@@ -108,5 +109,15 @@ def test_root_file_reference_from_root():
 
 def test_recursive_reference_in_root():
     tester = SpecificationTester("recursive_reference_in_root")
-    tester.assert_path_ref("PlainObject")
-    tester.assert_schemas({"PlainObject"})
+    tester.assert_schema_ref("RecursiveObject", "RecursiveObject", "additionalProperties")
+
+
+def test_recursive_reference_in_file():
+    tester = SpecificationTester("recursive_reference_in_file")
+    tester.assert_path_ref("recursive_reference_in_file_schemas.spec.yaml_RecursiveObject")
+    tester.assert_schemas({"recursive_reference_in_file_schemas.spec.yaml_RecursiveObject"})
+    tester.assert_schema_ref(
+        "recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
+        "recursive_reference_in_file_schemas.spec.yaml_RecursiveObject",
+        "additionalProperties"
+    )
