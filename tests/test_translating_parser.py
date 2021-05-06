@@ -6,6 +6,23 @@ from translating_parser.parser import TranslatingParser
 
 
 class SpecificationTester:
+    """
+    Helper class that tests correct reference translation. Loads a specification file from tests/specs, parses it with
+    the TranslatingParser and provides assertion methods:
+    * assert_schemas to check what’s in /components/schemas.
+    * assert_path_ref to check the $ref of the only operation response in the specification.
+    * assert_schema_ref to check the $ref of a schema in /components/schemas.
+
+    Typical usage:
+    tester = SpecificationTester("my_spec_file")
+    tester.assert_path_ref("some_other_refd_file.spec.yaml_SomeObject")
+    tester.assert_schemas(
+        {"some_other_refd_file.spec.yaml_SomeObject", "some_other_refd_file.spec.yaml_SomeOtherObject"}
+    )
+    tester.assert_schema_ref(
+        "some_other_refd_file.spec.yaml_SomeObject", "some_other_refd_file.spec.yaml_SomeOtherObject",
+    )
+    """
     @staticmethod
     def _parse_spec(name):
         file = f"{name}.spec.yaml"
@@ -23,14 +40,31 @@ class SpecificationTester:
         self.specification = self._parse_spec(file)
 
     def assert_schemas(self, keys):
+        """
+        Asserts schema names in /components/schemas.
+        """
         assert self.specification["components"]["schemas"].keys() == keys
 
     def assert_path_ref(self, ref):
+        """
+        Asserts $ref value in /paths/hosts/get/responses/default/content/application/json/schema.
+        """
         responses = self.specification["paths"]["/hosts"]["get"]["responses"]
         schema = responses["default"]["content"]["application/json"]["schema"]
         self._assert_ref(schema, ref)
 
     def assert_schema_ref(self, key, ref, getter=lambda schema: schema):
+        """
+        Asserts $ref value in /components/schemas/{key}. May use a custom getter function to find the $ref deeper in
+        the schema.
+
+        Example:
+            tester.assert_schema_ref(
+                "SomeComplexObject",
+                "schemas.spec.yaml_SomeOtherObject",
+                lambda schema: schema["properties"]["some_property"]
+            )
+        """
         schemas = self.specification["components"]["schemas"]
         assert key in schemas
         schema = getter(schemas[key])
