@@ -4,18 +4,52 @@ This is a Translating parser for [Prance], a library processing and validating [
 
 Frameworks like [Connexion] unfortunately do not support file references in the specification and [Prance] can be used to alleviate this missing features. Inlining can result in excessive memory usage and also can make code generators not work properly if they rely on properly reused component schema definitions. If the specification contains a recursive object definition, inlining would result in an infinite loop. 
 
-## Requirements ##
+## Development environment ##
 
-* pipenv
+1. Get [Pipenv].
   ```sh
   $ pip install pipenv
   ```
+2. Install requirements.
+  ```sh
+  $ pipenv sync
+  ```
+3. ???
+4. Profit.
 
-## Development environment ##
+## Usage ##
 
-```sh
-$ pipenv sync
+The core here is the [TranslatingParser](translating_parser/parser.py#L6) that can be used instead of Prance’s _ResolvingParser_ to process the specification.
+
+```python
+from translating_parser.parser import TranslatingParser
+parser = TranslatingParser("openapi.spec.yaml")
+parser.parse()
+print(parser.specification)
 ```
+
+There is a companion CLI script [main.py](main.py) that can be used to test and debug the parser.
+
+```
+usage: main.py [-h] [--parser PARSER] [--output-format OUTPUT_FORMAT]
+               [--verbose]
+               [file]
+
+positional arguments:
+  file                  OpenAPI specification file. Default:
+                        specs/openapi.spec.yaml
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --parser PARSER, -p PARSER
+                        Parser class. Default:
+                        translating_parser.parser.TranslatingParser
+  --output-format OUTPUT_FORMAT, -f OUTPUT_FORMAT
+                        Output format: json or yaml. Default: json
+  --verbose, -v         Verbose output
+```
+
+To use the original Resolving Parser, use `-p prance.ResolvingParser`.
 
 ## Testing ##
 
@@ -30,3 +64,4 @@ $ PYTHONPATH=. pipenv run pytest
 [Prance]: https://github.com/RonnyPfannschmidt/prance/
 [OpenAPI]: https://www.openapis.org/
 [Connexion]: https://github.com/zalando/connexion
+[Pipenv]: https://github.com/pypa/pipenv
