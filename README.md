@@ -18,3 +18,9 @@ $ pipenv sync
 ```sh
 $ PYTHONPATH=. pipenv run pytest
 ```
+
+## License ##
+
+[MIT](LICENSE.txt), to be compatible with [Prance].
+
+Prance: https://github.com/RonnyPfannschmidt/prance/
