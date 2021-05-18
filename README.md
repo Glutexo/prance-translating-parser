@@ -23,4 +23,4 @@ $ PYTHONPATH=. pipenv run pytest
 
 [MIT](LICENSE.txt), to be compatible with [Prance].
 
-Prance: https://github.com/RonnyPfannschmidt/prance/
+[Prance]: https://github.com/RonnyPfannschmidt/prance/
