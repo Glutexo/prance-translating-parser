@@ -107,12 +107,12 @@ components:
           $ref: "#/components/schemas/schemas.spec.yaml_Simple"
         nested:
           $ref: "#/components/schemas/schemas.spec.yaml_Nested"
-  Simple:
-    type: object
-  Nested:
-    type: object
-    additionalProperties:
-      $ref: "#/components/schemas/schemas.spec.yaml_Nested"
+      schemas.spec.yaml_Simple:
+        type: object
+      schemas.spec.yaml_Nested:
+        type: object
+        additionalProperties:
+          $ref: "#/components/schemas/schemas.spec.yaml_Nested"
 ```
 
 Here, the schemas from the external files are carried over to the original specification document. References remain references, just pointing to the Schemas collection. This applies to the recursive object too that is still recursive, only referencing itself in its new location.
