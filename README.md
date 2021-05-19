@@ -2,7 +2,7 @@
 
 This is a Translating parser for [Prance], a library processing and validating [OpenAPI] specification files. It targets use cases when a specification spans across multiple files that need to be compiled to a single document, but inlining of the references objects is not desired or event possible.
 
-Frameworks like [Connexion] unfortunately do not support file references in the specification and [Prance] can be used to alleviate this missing features. Inlining can result in excessive memory usage and also can make code generators not work properly if they rely on properly reused component schema definitions. If the specification contains a recursive object definition, inlining would result in an infinite loop.
+Frameworks like [Connexion] unfortunately do not support file references in the specification and [Prance] can be used to alleviate this missing feature. Inlining can result in excessive memory usage and also can make code generators not work properly if they rely on properly reused component schema definitions. If the specification contains a recursive object definition, inlining would result in an infinite loop.
 
 The original motivation is to make [Red Hat Insights Host Inventory](https://github.com/RedHatInsights/insights-host-inventory) work with recursive objects [defined](https://github.com/RedHatInsights/inventory-schemas/blob/master/schemas/system_profile/v1.yaml#L5) in a schema that is incorporated to the OpenAPI specification of the application.
 
