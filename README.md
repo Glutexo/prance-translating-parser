@@ -6,6 +6,117 @@ Frameworks like [Connexion] unfortunately do not support file references in the 
 
 The original motivation is to make [Red Hat Insights Host Inventory](https://github.com/RedHatInsights/insights-host-inventory) work with recursive objects [defined](https://github.com/RedHatInsights/inventory-schemas/blob/master/schemas/system_profile/v1.yaml#L5) in a schema that is incorporated to the OpenAPI specification of the application.
 
+## Examples ##
+
+Imagine having an OpenAPI specification file that references an object from an external file. The current Resolving Parser would inline all of those, even if they were pointing to the same object, using a lot of memory. If the target object would recursively reference itself, such inlining wouldn’t be even possible.
+
+_openapi.spec.yaml_
+```yaml
+---
+openapi: 3.0.3
+info:
+  title: Example specification for the translating parser
+  version: 0.0.0
+paths:
+  /hosts:
+    get:
+      responses:
+        default:
+          description: >-
+            An operation with a referenced schema.
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/$defs/Response'
+```
+
+_schemas.spec.yaml_
+```yaml
+---
+$defs:
+  Response:
+    type: object
+    properties:
+      simple:
+        $ref: "#/$defs/Simple"
+      nested:
+        $ref: "#/$defs/Nested"
+  Simple:
+    type: object
+  Nested:
+    type: object
+    additionalProperties:
+      $ref: "#/$defs/Nested"
+```
+
+### Resolving Parser result ###
+
+```yaml
+---
+openapi: 3.0.3
+info:
+  title: Example specification for the translating parser
+  version: 0.0.0
+paths:
+  /hosts:
+    get:
+      responses:
+        default:
+          description: >-
+            An operation with a referenced schema.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  simple:
+                    type: object
+                  nested:
+                    type: object
+                    additionalProperties:
+                      <RECURSION!>
+```
+
+All references are removed and replaces with the referenced content. If a single object is referenced multiple times, the whole schema is inlined in place of each reference. In case of the recursive reference, this causes an infinite loop unless a custom Recursion Handler is provided. 
+
+### Translating Parser result ###
+
+```yaml
+---
+openapi: 3.0.3
+info:
+  title: Example specification for the translating parser
+  version: 0.0.0
+paths:
+  /hosts:
+    get:
+      responses:
+        default:
+          description: >-
+            An operation with a referenced schema.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/schemas.spec.yaml_Response"
+components:
+  schemas:
+    schemas.spec.yaml_Response:
+      type: object
+      properties:
+        simple:
+          $ref: "#/components/schemas/schemas.spec.yaml_Simple"
+        nested:
+          $ref: "#/components/schemas/schemas.spec.yaml_Nested"
+  Simple:
+    type: object
+  Nested:
+    type: object
+    additionalProperties:
+      $ref: "#/components/schemas/schemas.spec.yaml_Nested"
+```
+
+Here, the schemas from the external files are carried over to the original specification document. References remain references, just pointing to the Schemas collection. This applies to the recursive object too that is still recursive, only referencing itself in its new location.
+
 ## Development environment ##
 
 1. Get [Pipenv].
